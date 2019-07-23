@@ -75,6 +75,15 @@ gulp.task("aruco-meta-marker-tracker", function () {
     return run(shellCommand).exec();
 });
 
+gulp.task("opencv-photo", function () {
+    var shellCommand = 
+        "cd src/cpp/opencv-photo; " +
+        "./build.sh ../../../" + EMSCRIPTEN_COMPILER_LOCATION + "; " +
+        "cd ../../../; " +
+        "cp src/cpp/opencv-photo/build/* dist/wasm/";
+    return run(shellCommand).exec();
+});
+
 // ================ JAVASCRIPT BUILD SCRIPTS ================
 
 gulp.task("exampleWorker", function () {
