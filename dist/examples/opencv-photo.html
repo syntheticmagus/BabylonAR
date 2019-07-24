@@ -18,12 +18,18 @@
                     camera.setTarget(BABYLON.Vector3.Zero());
                     camera.attachControl(canvas, false);
                     var light = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(0,1,0), scene);
-                    var sphere = BABYLON.Mesh.CreateSphere('sphere1', 16, 2, scene);
-                    sphere.position.y = 1;
                     var ground = BABYLON.Mesh.CreateGround('ground1', 6, 6, 2, scene);
 
                     var marred = new BABYLON.Texture("opencv-photo-resources/babylon_logo_marred.png");
                     var mask = new BABYLON.Texture("opencv-photo-resources/babylon_logo_mask.png");
+
+                    await BabylonAR.OpenCVPhoto.InitializeAsync();
+                    var texture = await BabylonAR.OpenCVPhoto.InpaintAsync(marred, mask, scene, 5);
+                    console.log(texture.readPixels());
+
+                    var healedMaterial = new BABYLON.StandardMaterial("healedMaterial", scene);
+                    healedMaterial.diffuseTexture = texture;
+                    ground.material = healedMaterial;
 
                     return scene;
                 }
